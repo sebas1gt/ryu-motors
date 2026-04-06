@@ -3,13 +3,16 @@
   <url>
     <loc>https://www.ryudetailing.es/</loc>
     <priority>1.0</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.ryudetailing.es/servicios.html</loc>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.ryudetailing.es/contacto.html</loc>
     <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
   </url>
 </urlset>
