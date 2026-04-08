@@ -22,15 +22,31 @@ function enableMobileMenu() {
   const toggle = document.querySelector(".nav-toggle");
   const nav = document.querySelector(".site-nav");
   if (!toggle || !nav) return;
-  toggle.addEventListener("click", () => {
+
+  function closeMenu() {
+    nav.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+  }
+
+  toggle.addEventListener("click", e => {
+    e.stopPropagation();
     const open = nav.classList.toggle("is-open");
     toggle.setAttribute("aria-expanded", String(open));
   });
+
+  /* Cerrar al hacer click en un enlace */
+  nav.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  /* Cerrar al tocar fuera (desktop y touch) */
   document.addEventListener("click", e => {
-    if (!e.target.closest(".site-header")) {
-      nav.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-    }
+    if (!e.target.closest(".site-header")) closeMenu();
+  });
+
+  /* Cerrar con Escape */
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeMenu();
   });
 }
 

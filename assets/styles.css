@@ -872,65 +872,368 @@ h3 {
   box-shadow: 0 8px 28px rgba(37,211,102,0.55);
 }
 
-/* ─── RESPONSIVE ─────────────────────────────────── */
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE — Mobile-first, todos los dispositivos
+   Breakpoints:
+   • 1200px  — Desktop grande (base, no media query)
+   • 1100px  — Desktop estándar / laptop
+   •  960px  — Tablet landscape / laptop pequeño
+   •  768px  — Tablet portrait (iPad)
+   •  640px  — Móvil grande (iPhone Plus, Galaxy)
+   •  390px  — Móvil estándar (iPhone 14)
+   •  360px  — Móvil pequeño (Galaxy S, Pixel)
+═══════════════════════════════════════════════════ */
+
+/* ── 1100px: Desktop estándar ───────────────────── */
 @media (max-width: 1100px) {
-  .services-grid { grid-template-columns: repeat(2, 1fr); }
-  .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  :root { --container: 960px; }
+
+  .services-grid       { grid-template-columns: repeat(2, 1fr); }
+  .testimonials-grid   { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid         { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .footer-brand-col p:not(.footer-logo) { max-width: 100%; }
 }
 
-@media (max-width: 900px) {
-  h1 { font-size: clamp(3rem, 10vw, 5rem); }
+/* ── 960px: Tablet landscape ─────────────────────── */
+@media (max-width: 960px) {
+  h1 { font-size: clamp(2.8rem, 9vw, 4.5rem); }
   h2 { font-size: clamp(2rem, 6vw, 3rem); }
 
-  .hero-grid,
-  .page-hero-inner,
-  .process-grid,
-  .faq-grid,
-  .service-detail-grid,
-  .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
-
-  .service-detail-grid.reverse { direction: ltr; }
-
-  .comparison-grid { grid-template-columns: 1fr; }
-  .gallery-grid { grid-template-columns: 1fr 1fr; }
-  .gallery-large { grid-column: auto; grid-row: auto; min-height: 260px; }
-  .gallery-wide { grid-column: auto; }
-
-  .trust-strip { flex-wrap: wrap; }
-  .trust-divider { display: none; }
-  .trust-item { flex: 1 1 40%; }
-
+  /* Header — activar hamburger */
   .nav-toggle { display: flex; }
   .site-nav {
     position: fixed;
-    inset: 76px 0 auto;
+    top: 76px;
+    left: 0;
+    right: 0;
+    bottom: auto;
     flex-direction: column;
     align-items: stretch;
-    padding: 1rem;
-    background: rgba(10,10,10,0.98);
-    border-bottom: 1px solid var(--line);
+    padding: 1rem 1.25rem;
+    background: rgba(8,8,8,0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line-med);
     display: none;
-    gap: 0.25rem;
+    gap: 0.2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
   }
   .site-nav.is-open { display: flex; }
-  .site-nav .btn { margin-left: 0; }
+  .site-nav .nav-link {
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    border-radius: var(--radius-sm);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-nav .nav-link:last-of-type { border-bottom: none; }
+  .site-nav .btn {
+    margin: 0.5rem 0 0;
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem;
+  }
 
-  .cta-inner { flex-direction: column; align-items: flex-start; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  /* Hero */
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .hero-copy { order: 1; }
+  .hero-card  { order: 2; }
+  .hero-actions { flex-wrap: nowrap; }
+
+  /* Page hero */
+  .page-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Trust */
+  .trust-strip  { flex-wrap: wrap; gap: 0; }
+  .trust-divider { display: none; }
+  .trust-item   { flex: 1 1 50%; border-bottom: 1px solid var(--line); }
+  .trust-item:nth-child(odd)  { border-right: 1px solid var(--line); }
+  .trust-item:last-child,
+  .trust-item:nth-last-child(2) { border-bottom: none; }
+
+  /* Process */
+  .process-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  /* FAQ */
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  /* Service detail */
+  .service-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .service-detail-grid.reverse { direction: ltr; }
+  .service-detail-photo { order: -1; }
+
+  /* Contact */
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* CTA band */
+  .cta-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+  .cta-actions { flex-wrap: wrap; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+  /* Gallery — simplificar layout asimétrico */
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+  .gallery-large {
+    grid-column: 1 / 3;
+    grid-row: auto;
+    min-height: 280px;
+  }
+  .gallery-wide {
+    grid-column: 1 / 3;
+  }
 }
 
+/* ── 768px: Tablet portrait (iPad) ──────────────── */
+@media (max-width: 768px) {
+  :root { --container: 100%; }
+
+  .section { padding: 4rem 0; }
+  .hero { padding: 3.5rem 0 4rem; }
+  .cta-band { padding: 4rem 0; }
+
+  h1 { font-size: clamp(2.5rem, 11vw, 4rem); }
+  h2 { font-size: clamp(1.9rem, 7vw, 2.8rem); }
+  .lead { font-size: 1rem; }
+
+  /* Header más compacto */
+  .header-inner { min-height: 68px; }
+  .site-nav { top: 68px; }
+  .brand-ryu  { font-size: 1.5rem; }
+  .brand-det  { font-size: 0.65rem; }
+
+  /* Services — 2 col en tablet */
+  .services-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+
+  /* Testimonials — 2 col */
+  .testimonials-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+
+  /* Comparison — 1 col */
+  .comparison-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+  /* Form card */
+  .form-card { padding: 1.75rem 1.5rem; }
+  .form-card h2 { font-size: 1.5rem; }
+
+  /* Contact form card */
+  .contact-form-card { padding: 2rem 1.5rem; }
+
+  /* Page hero short */
+  .page-hero-short { padding: 3rem 0 2.5rem; }
+
+  /* Photo blocks */
+  .photo-tall { min-height: 280px; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+  .footer-brand-col { grid-column: 1 / 3; }
+}
+
+/* ── 640px: Móvil grande ─────────────────────────── */
 @media (max-width: 640px) {
-  .section { padding: 3.5rem 0; }
-  .hero { padding: 3rem 0 3.5rem; }
-  .services-grid,
-  .testimonials-grid { grid-template-columns: 1fr; }
-  .gallery-grid { grid-template-columns: 1fr; }
-  .form-card { padding: 1.5rem; }
-  .contact-form-card { padding: 1.5rem; }
-  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; }
-  .hero-actions { flex-direction: column; }
+  .section { padding: 3rem 0; }
+  .hero   { padding: 2.5rem 0 3rem; }
+  .cta-band { padding: 3rem 0; }
+
+  h1 { font-size: clamp(2.2rem, 12vw, 3.2rem); }
+  h2 { font-size: clamp(1.7rem, 8vw, 2.4rem); }
+
+  /* Hero acciones — columna */
+  .hero-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
   .hero-actions .btn { width: 100%; justify-content: center; }
-  .form-row { grid-template-columns: 1fr; }
+
+  /* Trust — 2x2 siempre */
+  .trust-item { flex: 1 1 50%; }
+  .trust-num  { font-size: 1.8rem; }
+
+  /* Services — 1 columna */
+  .services-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+  .service-card { padding: 1.4rem; }
+  .service-photo { min-height: 120px; }
+
+  /* Gallery */
+  .gallery-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  .gallery-large,
+  .gallery-wide { grid-column: auto; min-height: 200px; }
+  .gallery-item { min-height: 180px; }
+
+  /* Steps */
+  .step-num { font-size: 1.6rem; width: 2rem; }
+
+  /* Testimonials — 1 columna */
+  .testimonials-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+  .testimonial-card  { padding: 1.35rem; }
+
+  /* FAQ */
+  .faq-item summary h3 { font-size: 0.92rem; }
+  .faq-item p { font-size: 0.88rem; }
+
+  /* Form */
+  .form-card { padding: 1.35rem; }
+  .form-row  { grid-template-columns: 1fr; gap: 0.85rem; }
+  .contact-form-card { padding: 1.5rem 1.25rem; }
+  .contact-sidebar { gap: 0.85rem; }
+
+  /* Contact sidebar */
+  .contact-phone-big { font-size: 1.2rem; }
+
+  /* Comparison */
+  .comparison-card { padding: 1.5rem; }
+
+  /* Service detail */
+  .photo-tall { min-height: 220px; }
+  .service-detail-copy h2 { margin-bottom: 0.85rem; }
+
+  /* Page hero */
+  .page-hero { padding: 2.5rem 0 2.5rem; }
+  .page-hero-card { padding: 1.5rem; }
+
+  /* CTA */
+  .cta-actions { flex-direction: column; width: 100%; }
+  .cta-actions .btn { width: 100%; justify-content: center; }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .footer-brand-col { grid-column: auto; }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    padding: 1rem 0;
+  }
+  .footer-bottom p { font-size: 0.75rem; }
+
+  /* WA Fab */
+  .wa-fab { bottom: 1.25rem; right: 1.25rem; width: 50px; height: 50px; }
+}
+
+/* ── 390px: Móvil estándar (iPhone 14) ───────────── */
+@media (max-width: 390px) {
+  body { font-size: 15px; }
+
+  .container { width: calc(100% - 1.75rem); }
+
+  h1 { font-size: clamp(1.9rem, 13vw, 2.8rem); }
+  h2 { font-size: clamp(1.5rem, 9vw, 2rem); }
+
+  .brand-ryu { font-size: 1.35rem; }
+  .brand-sep { margin: 0 0.4rem; height: 18px; }
+  .brand-det { font-size: 0.6rem; letter-spacing: 0.16em; }
+  .header-inner { min-height: 62px; }
+  .site-nav { top: 62px; }
+
+  .hero { padding: 2rem 0 2.5rem; }
+  .hero-actions .btn { font-size: 0.88rem; padding: 0.85rem 1.25rem; }
+
+  .form-card  { padding: 1.15rem; }
+  .trust-num  { font-size: 1.5rem; }
+  .trust-item p { font-size: 0.75rem; }
+
+  .service-card   { padding: 1.2rem; }
+  .service-card h3 { font-size: 1rem; }
+  .service-card p  { font-size: 0.83rem; }
+
+  .testimonial-card { padding: 1.15rem; }
+  .testimonial-card p { font-size: 0.87rem; }
+
+  .step { gap: 0.85rem; }
+  .step h3 { font-size: 1rem; }
+  .step p  { font-size: 0.85rem; }
+
+  .faq-item summary { padding: 1rem 0; }
+  .faq-item summary h3 { font-size: 0.88rem; }
+
+  .contact-form-card { padding: 1.15rem; }
+  .contact-info-card,
+  .contact-services-card { padding: 1.25rem; }
+  .contact-phone-big { font-size: 1.05rem; }
+
+  .comparison-card { padding: 1.25rem; }
+  .photo-tall { min-height: 180px; }
+
+  .section { padding: 2.5rem 0; }
+  .cta-band { padding: 2.5rem 0; }
+  .cta-text h2 { font-size: clamp(1.5rem, 9vw, 2rem); }
+
+  .footer-grid { gap: 1.25rem; }
+  .footer-logo { font-size: 1.3rem; }
+
+  .wa-fab { width: 46px; height: 46px; bottom: 1rem; right: 1rem; }
+  .wa-fab svg { width: 22px; height: 22px; }
+
+  .btn { padding: 0.8rem 1.25rem; font-size: 0.88rem; }
+  .btn-lg { padding: 0.9rem 1.5rem; }
+  .btn-sm { padding: 0.6rem 0.9rem; font-size: 0.8rem; }
+}
+
+/* ── 360px: Móvil pequeño ────────────────────────── */
+@media (max-width: 360px) {
+  .container { width: calc(100% - 1.5rem); }
+
+  h1 { font-size: clamp(1.7rem, 14vw, 2.4rem); }
+  h2 { font-size: clamp(1.4rem, 10vw, 1.8rem); }
+
+  .trust-strip { flex-direction: column; }
+  .trust-item  { flex: none; width: 100%; border-right: none !important; border-bottom: 1px solid var(--line) !important; }
+  .trust-item:last-child { border-bottom: none !important; }
+
+  .brand-det { display: none; }
+  .brand-sep { display: none; }
+}
+
+/* ── Landscape móvil: orientación horizontal ─────── */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero { padding: 2rem 0; }
+  .hero-grid { gap: 1.5rem; }
+  h1 { font-size: clamp(2rem, 7vw, 3rem); }
+  .section { padding: 2.5rem 0; }
+  .site-nav { max-height: 80vh; overflow-y: auto; }
+}
+
+/* ── Hover solo en dispositivos con puntero ──────── */
+@media (hover: none) {
+  .service-card:hover,
+  .testimonial-card:hover,
+  .comparison-card:hover {
+    transform: none;
+    border-color: var(--line);
+  }
+  .btn-gold:hover {
+    transform: none;
+    box-shadow: 0 8px 28px rgba(241,200,77,0.35);
+  }
+  .wa-fab:hover {
+    transform: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+  }
 }
